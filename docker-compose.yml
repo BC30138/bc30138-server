@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    volumes:
+      - /etc/ssl/nginx:/etc/ssl/nginx
+    ports:
+      - 80:80
+      - 443:443
+
+networks:
+  bc30138-net:
+    driver: bridge
