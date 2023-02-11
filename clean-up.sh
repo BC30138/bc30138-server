@@ -5,6 +5,5 @@ then
   docker-compose rm -f
   docker image prune -a -f
   cd ..
+  rm -rf $1
 fi
-
-rm -rf $1
