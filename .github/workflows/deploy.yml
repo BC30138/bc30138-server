@@ -28,6 +28,8 @@ jobs:
               mkdir -p /etc/ssl/nginx
               echo "${{ secrets.SH_CRT }}" > /etc/ssl/nginx/stanethuzhe.ru.crt
               echo "${{ secrets.SH_KEY }}" > /etc/ssl/nginx/stanethuzhe.ru.key
+              echo "${{ secrets.WEDDING_CRT }}" > /etc/ssl/nginx/wedding.crt
+              echo "${{ secrets.WEDDING_KEY }}" > /etc/ssl/nginx/wedding.key
               docker-compose up -d
           '
           sleep 150
