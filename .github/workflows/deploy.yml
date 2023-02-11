@@ -1,0 +1,33 @@
+name: Deploy
+on: [workflow_dispatch]
+env:
+  PRIVATE_KEY_PATH: private.key
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+      - name: "create ssh key"
+        shell: bash
+        run: |
+          mkdir -p ~/.ssh/
+          echo "${{ secrets.SERVER_KEY }}" > $PRIVATE_KEY_PATH
+          sudo chmod 600 $PRIVATE_KEY_PATH
+          echo "${{ secrets.SERVER_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+      - name: "use ssh"
+        shell: bash
+        run: |
+          ssh -i $PRIVATE_KEY_PATH ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} -f '
+              bash bc30138-server/clean-up.sh bc30138-server 2>/dev/null
+              git clone -b ${{ steps.extract_branch.outputs.branch }} --single-branch ${{ github.server_url }}/${{ github.repository }}.git 
+              cd bc30138-server
+              mkdir -p /etc/ssl/nginx
+              echo ${{ secrets.SH_CRT }} >> /etc/ssl/nginx/stanethuzhe.ru.crt
+              echo ${{ secrets.SH_KEY }} >> /etc/ssl/nginx/stanethuzhe.ru.key
+              docker-compose up -d
+          '
+          sleep 150
