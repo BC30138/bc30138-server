@@ -1,19 +1,16 @@
 version: "3"
 
 services:
-  nginx:
-    restart: always
-    build:
-      context: .
-      dockerfile: ./docker/nginx/Dockerfile
-    volumes:
-      - /etc/ssl/nginx:/etc/ssl/nginx
+  app:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
     ports:
-      - 80:80
-      - 443:443
-    networks:
-      - bc30138-net
-
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    volumes:
+      - /nginxdata:/data
+      - /etc/ssl/nginx:/etc/letsencrypt
 networks:
   bc30138-net:
     driver: bridge
