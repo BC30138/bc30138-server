@@ -26,8 +26,8 @@ jobs:
               git clone -b ${{ steps.extract_branch.outputs.branch }} --single-branch ${{ github.server_url }}/${{ github.repository }}.git 
               cd bc30138-server
               mkdir -p /etc/ssl/nginx
-              echo ${{ secrets.SH_CRT }} >> /etc/ssl/nginx/stanethuzhe.ru.crt
-              echo ${{ secrets.SH_KEY }} >> /etc/ssl/nginx/stanethuzhe.ru.key
+              echo "${{ secrets.SH_CRT }}" > /etc/ssl/nginx/stanethuzhe.ru.crt
+              echo "${{ secrets.SH_KEY }}" > /etc/ssl/nginx/stanethuzhe.ru.key
               docker-compose up -d
           '
           sleep 150
