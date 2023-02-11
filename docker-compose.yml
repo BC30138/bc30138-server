@@ -11,6 +11,9 @@ services:
     volumes:
       - /nginxdata:/data
       - /etc/ssl/nginx:/etc/letsencrypt
+    networks:
+      - bc30138-net
+
 networks:
   bc30138-net:
     driver: bridge
