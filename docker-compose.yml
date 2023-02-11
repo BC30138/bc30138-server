@@ -16,5 +16,4 @@ services:
 
 networks:
   bc30138-net:
-    name: bc30138-net
     driver: bridge
