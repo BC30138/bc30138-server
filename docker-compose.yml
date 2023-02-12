@@ -9,7 +9,7 @@ services:
       - '81:81'
       - '443:443'
     volumes:
-      - ./nginxdata:/data
+      - /nginxdata:/data
       - /etc/ssl/nginx:/etc/letsencrypt
     networks:
       - bc30138-net
